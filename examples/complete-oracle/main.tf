@@ -24,6 +24,16 @@ resource aws_subnet "subnet_a" {
   }
 }
 
+resource aws_subnet "subnet_b" {
+  vpc_id            = aws_vpc.oracle.id
+  availability_zone = "us-west-2b"
+  cidr_block        = "10.0.2.0/24"
+
+  tags = {
+    name = "assareh-oracle-subnet_a"
+  }
+}
+
 resource "aws_security_group" "oracle" {
   name   = "assareh-security-group"
   vpc_id = aws_vpc.oracle.id
@@ -120,7 +130,7 @@ module "db" {
   }
 
   # DB subnet group
-  subnet_ids = [aws_subnet.subnet_a.id]
+  subnet_ids = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
 
   # DB parameter group
   family = "oracle-ee-12.1"
