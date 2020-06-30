@@ -3,7 +3,6 @@ variable "my_ip" {
 }
 
 variable "key_name" {
-  default     = "default"
   description = "SSH key name for Vault and Consul instances"
 }
 
