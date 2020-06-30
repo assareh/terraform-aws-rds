@@ -71,7 +71,7 @@ resource aws_key_pair "oracle" {
 ######################## INSTANCES ########################
 resource aws_instance "client" {
   ami                         = data.aws_ami.ubuntu-vault-oss.id
-  instance_type               = "t2.nano"
+  instance_type               = "t2.small"
   key_name                    = aws_key_pair.oracle.key_name
   associate_public_ip_address = true
   subnet_id                   = aws_subnet.subnet_a.id
