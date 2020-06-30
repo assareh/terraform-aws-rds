@@ -103,7 +103,7 @@ module "db" {
   engine            = "oracle-se2"
   engine_version    = "12.1.0.2.v8"
   instance_class    = "db.t3.small"
-  allocated_storage = 5
+  allocated_storage = 10
 
   license_model = "license-included"
 
