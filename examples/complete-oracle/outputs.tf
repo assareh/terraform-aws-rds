@@ -83,5 +83,5 @@ output "aws-instance-ip" {
 }
 
 output "private-key" {
-  value = tls_private_key.hashidemos.private_key_pem
+  value = tls_private_key.oracle.private_key_pem
 }
