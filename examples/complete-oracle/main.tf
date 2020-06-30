@@ -133,7 +133,7 @@ module "db" {
   subnet_ids = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
 
   # DB parameter group
-  family = "oracle-ee-12.1"
+  family = "oracle-se2-12.1"
 
   # DB option group
   major_engine_version = "12.1"
