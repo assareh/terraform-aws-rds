@@ -64,7 +64,7 @@ resource tls_private_key "oracle" {
 }
 
 resource aws_key_pair "oracle" {
-  key_name   = "assareh-client.pem"
+  key_name   = "oracle-client"
   public_key = tls_private_key.oracle.public_key_openssh
 }
 
@@ -74,8 +74,8 @@ resource aws_instance "client" {
   instance_type               = "t2.small"
   key_name                    = aws_key_pair.oracle.key_name
   associate_public_ip_address = true
-  subnet_id                   = aws_subnet.subnet_a.id
-  vpc_security_group_ids      = [aws_security_group.oracle.id]
+#  subnet_id                   = aws_subnet.subnet_a.id
+#  vpc_security_group_ids      = [aws_security_group.oracle.id]
 
   tags = {
     Name  = "assareh-client-instance",
