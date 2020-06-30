@@ -64,7 +64,7 @@ resource tls_private_key "oracle" {
 
 resource aws_key_pair "oracle" {
   key_name   = "assareh-client.pem"
-  public_key = tls_private_key.hashidemos.public_key_openssh
+  public_key = tls_private_key.oracle.public_key_openssh
 }
 
 ######################## INSTANCES ########################
