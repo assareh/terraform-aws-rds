@@ -120,7 +120,7 @@ module "db" {
   }
 
   # DB subnet group
-  subnet_ids = ["aws_subnet.subnet_a.id"]
+  subnet_ids = [aws_subnet.subnet_a.id]
 
   # DB parameter group
   family = "oracle-ee-12.1"
