@@ -57,11 +57,21 @@ resource "aws_security_group_rule" "oracle_egress" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
+######################## KEYS ########################
+resource tls_private_key "oracle" {
+  algorithm = "RSA"
+}
+
+resource aws_key_pair "oracle" {
+  key_name   = "assareh-client.pem"
+  public_key = tls_private_key.hashidemos.public_key_openssh
+}
+
 ######################## INSTANCES ########################
 resource aws_instance "client" {
   ami                         = data.aws_ami.ubuntu-vault-oss.id
   instance_type               = "t2.nano"
-  key_name                    = var.key_name
+  key_name                    = aws_key_pair.oracle.key_name
   associate_public_ip_address = true
   subnet_id                   = aws_subnet.subnet_a.id
   vpc_security_group_ids      = [aws_security_group.oracle.id]

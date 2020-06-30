@@ -81,3 +81,7 @@ output "this_db_parameter_group_arn" {
 output "aws-instance-ip" {
   value = aws_instance.client.public_ip
 }
+
+output "private-key" {
+  value = tls_private_key.hashidemos.private_key_pem
+}
