@@ -56,7 +56,7 @@ resource aws_instance "client" {
   key_name                    = var.key_name
   associate_public_ip_address = true
   subnet_id                   = aws_subnet.subnet_a.id
-  vpc_security_group_ids      = [aws_security_group.benchmark.id]
+  vpc_security_group_ids      = [aws_security_group.oracle.id]
 
   tags = {
     Name  = "assareh-client-instance",
@@ -99,8 +99,8 @@ module "db" {
 
   # Make sure that database name is capitalized, otherwise RDS will try to recreate RDS instance every time
   name                                = "DEMODB"
-  username                            = "something_like_user"
-  password                            = "YourPwdShouldBeLongAndSecure!"
+  username                            = var.db_username
+  password                            = random_id.db_password
   port                                = "1521"
   iam_database_authentication_enabled = false
 
@@ -112,25 +112,30 @@ module "db" {
   backup_retention_period = 0
 
   tags = {
-    Owner       = "user"
-    Environment = "dev"
+    Name  = "assareh-oracledb-instance",
+    owner = var.owner,
+    ttl   = var.ttl
   }
 
   # DB subnet group
-  subnet_ids = data.aws_subnet_ids.all.ids
+  subnet_ids = [aws_subnet.subnet_a.id]
 
   # DB parameter group
   family = "oracle-ee-12.1"
 
   # DB option group
-  major_engine_version = "12.1"
+  #major_engine_version = "12.1"
 
   # Snapshot name upon DB deletion
   final_snapshot_identifier = "demodb"
 
   # See here for support character sets https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.OracleCharacterSets.html
-  character_set_name = "AL32UTF8"
+  #character_set_name = "AL32UTF8"
 
   # Database Deletion Protection
-  deletion_protection = false
+  #deletion_protection = false
+}
+
+resource random_id "db_password" {
+  byte_length = 22
 }

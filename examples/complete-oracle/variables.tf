@@ -14,3 +14,7 @@ variable "owner" {
 variable "ttl" {
   description = "value of ttl tag on EC2 instances"
 }
+
+variable "db_username" {
+  description = "db username"
+}
