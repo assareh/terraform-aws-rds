@@ -57,11 +57,9 @@ resource "aws_security_group_rule" "oracle_egress" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
-#####
-# VM
-#####
+######################## INSTANCES ########################
 resource aws_instance "client" {
-  ami                         = data.aws_ami.ubuntu.id
+  ami                         = data.aws_ami.ubuntu-vault-oss.id
   instance_type               = "t2.nano"
   key_name                    = var.key_name
   associate_public_ip_address = true
@@ -75,20 +73,20 @@ resource aws_instance "client" {
   }
 }
 
-data "aws_ami" "ubuntu" {
+######################## AMI ########################
+data "aws_ami" "ubuntu-vault-oss" {
+  owners      = ["679593333241"] # HashiCorp
   most_recent = true
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-*"]
+    values = ["hashicorp/marketplace/vault-*"]
   }
 
   filter {
     name   = "virtualization-type"
     values = ["hvm"]
   }
-
-  owners = ["099720109477"] # Canonical
 }
 
 #####
