@@ -135,56 +135,56 @@ data "aws_ami" "ubuntu" {
 #####
 # DB
 #####
-# module "db" {
-#   source  = "terraform-aws-modules/rds/aws"
-#   version = "~> 2.0"
+module "db" {
+  source  = "terraform-aws-modules/rds/aws"
+  version = "~> 2.0"
 
-#   identifier = "demodb-oracle"
+  identifier = "demodb-oracle"
 
-#   engine            = "oracle-se2"
-#   engine_version    = "12.1.0.2.v8"
-#   instance_class    = "db.t3.small"
-#   allocated_storage = 10
+  engine            = "oracle-se2"
+  engine_version    = "12.1.0.2.v8"
+  instance_class    = "db.t3.small"
+  allocated_storage = 10
 
-#   license_model = "license-included"
+  license_model = "license-included"
 
-#   # Make sure that database name is capitalized, otherwise RDS will try to recreate RDS instance every time
-#   name     = "DEMODB"
-#   username = var.db_username
-#   password = random_password.db_password.result
-#   port     = "1521"
+  # Make sure that database name is capitalized, otherwise RDS will try to recreate RDS instance every time
+  name     = "DEMODB"
+  username = var.db_username
+  password = random_password.db_password.result
+  port     = "1521"
 
-#   iam_database_authentication_enabled = false
+  iam_database_authentication_enabled = false
 
-#   vpc_security_group_ids = [aws_security_group.hashicat.id]
+  vpc_security_group_ids = [aws_security_group.hashicat.id]
 
-#   maintenance_window = "Mon:00:00-Mon:03:00"
-#   backup_window      = "03:00-06:00"
+  maintenance_window = "Mon:00:00-Mon:03:00"
+  backup_window      = "03:00-06:00"
 
-#   # disable backups to create DB faster
-#   backup_retention_period = 0
+  # disable backups to create DB faster
+  backup_retention_period = 0
 
-#   tags = {
-#     Name  = "assareh-oracledb-instance",
-#     owner = var.owner,
-#     ttl   = var.ttl
-#   }
+  tags = {
+    Name  = "assareh-oracledb-instance",
+    owner = var.owner,
+    ttl   = var.ttl
+  }
 
-#   # DB subnet group
-#   subnet_ids = [aws_subnet.hashicat.id, aws_subnet.hashicat2.id]
+  # DB subnet group
+  subnet_ids = [aws_subnet.hashicat.id, aws_subnet.hashicat2.id]
 
-#   # DB parameter group
-#   family = "oracle-se2-12.1"
+  # DB parameter group
+  family = "oracle-se2-12.1"
 
-#   # DB option group
-#   major_engine_version = "12.1"
+  # DB option group
+  major_engine_version = "12.1"
 
-#   # Snapshot name upon DB deletion
-#   final_snapshot_identifier = "demodb"
+  # Snapshot name upon DB deletion
+  final_snapshot_identifier = "demodb"
 
-#   # See here for support character sets https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.OracleCharacterSets.html
-#   character_set_name = "AL32UTF8"
-# }
+  # See here for support character sets https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.OracleCharacterSets.html
+  character_set_name = "AL32UTF8"
+}
 
 resource random_password "db_password" {
   length  = 20
