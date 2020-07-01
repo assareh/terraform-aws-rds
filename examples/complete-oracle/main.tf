@@ -84,6 +84,21 @@ resource aws_instance "client" {
   }
 }
 
+resource aws_instance "client2" {
+  ami                         = data.aws_ami.ubuntu.id
+  instance_type               = "t2.small"
+  key_name                    = aws_key_pair.oracle.key_name
+  associate_public_ip_address = true
+  subnet_id                   = aws_subnet.subnet_b.id
+  #vpc_security_group_ids      = [aws_security_group.oracle.id]
+
+  tags = {
+    Name  = "assareh-client-instance",
+    owner = var.owner,
+    ttl   = var.ttl
+  }
+}
+
 ######################## AMI ########################
 data "aws_ami" "ubuntu-vault-oss" {
   owners      = ["679593333241"] # HashiCorp
@@ -99,6 +114,23 @@ data "aws_ami" "ubuntu-vault-oss" {
     values = ["hvm"]
   }
 }
+
+data "aws_ami" "ubuntu" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  owners = ["099720109477"] # Canonical
+}
+
 
 #####
 # DB
