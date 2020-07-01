@@ -6,57 +6,57 @@ provider "aws" {
 ##############################################################
 # VPC, subnets and security group details
 ##############################################################
-resource aws_vpc "oracle" {
-  cidr_block           = "10.0.0.0/16"
-  enable_dns_hostnames = true
+# resource aws_vpc "oracle" {
+#   cidr_block           = "10.0.0.0/16"
+#   enable_dns_hostnames = true
 
-  tags = {
-    Name = "assareh-oracle-vpc"
-  }
-}
+#   tags = {
+#     Name = "assareh-oracle-vpc"
+#   }
+# }
 
-resource aws_subnet "subnet_a" {
-  vpc_id            = aws_vpc.oracle.id
-  availability_zone = "us-west-2a"
-  cidr_block        = "10.0.1.0/24"
+# resource aws_subnet "subnet_a" {
+#   vpc_id            = aws_vpc.oracle.id
+#   availability_zone = "us-west-2a"
+#   cidr_block        = "10.0.1.0/24"
 
-  tags = {
-    name = "assareh-oracle-subnet_a"
-  }
-}
+#   tags = {
+#     name = "assareh-oracle-subnet_a"
+#   }
+# }
 
-resource aws_subnet "subnet_b" {
-  vpc_id            = aws_vpc.oracle.id
-  availability_zone = "us-west-2b"
-  cidr_block        = "10.0.2.0/24"
+# resource aws_subnet "subnet_b" {
+#   vpc_id            = aws_vpc.oracle.id
+#   availability_zone = "us-west-2b"
+#   cidr_block        = "10.0.2.0/24"
 
-  tags = {
-    name = "assareh-oracle-subnet_a"
-  }
-}
+#   tags = {
+#     name = "assareh-oracle-subnet_a"
+#   }
+# }
 
-resource "aws_security_group" "oracle" {
-  name   = "assareh-security-group"
-  vpc_id = aws_vpc.oracle.id
-}
+# resource "aws_security_group" "oracle" {
+#   name   = "assareh-security-group"
+#   vpc_id = aws_vpc.oracle.id
+# }
 
-resource "aws_security_group_rule" "oracle_ssh" {
-  security_group_id = aws_security_group.oracle.id
-  type              = "ingress"
-  from_port         = 22
-  to_port           = 22
-  protocol          = "tcp"
-  cidr_blocks       = [var.my_ip]
-}
+# resource "aws_security_group_rule" "oracle_ssh" {
+#   security_group_id = aws_security_group.oracle.id
+#   type              = "ingress"
+#   from_port         = 22
+#   to_port           = 22
+#   protocol          = "tcp"
+#   cidr_blocks       = [var.my_ip]
+# }
 
-resource "aws_security_group_rule" "oracle_egress" {
-  security_group_id = aws_security_group.oracle.id
-  type              = "egress"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
-  cidr_blocks       = ["0.0.0.0/0"]
-}
+# resource "aws_security_group_rule" "oracle_egress" {
+#   security_group_id = aws_security_group.oracle.id
+#   type              = "egress"
+#   from_port         = 0
+#   to_port           = 0
+#   protocol          = "-1"
+#   cidr_blocks       = ["0.0.0.0/0"]
+# }
 
 ######################## KEYS ########################
 resource tls_private_key "oracle" {
@@ -69,51 +69,51 @@ resource aws_key_pair "oracle" {
 }
 
 ######################## INSTANCES ########################
-resource aws_instance "client" {
-  ami                         = data.aws_ami.ubuntu-vault-oss.id
-  instance_type               = "t2.small"
-  key_name                    = aws_key_pair.oracle.key_name
-  associate_public_ip_address = true
-  subnet_id                   = aws_subnet.subnet_a.id
-  #vpc_security_group_ids      = [aws_security_group.oracle.id]
+# resource aws_instance "client" {
+#   ami                         = data.aws_ami.ubuntu-vault-oss.id
+#   instance_type               = "t2.small"
+#   key_name                    = aws_key_pair.oracle.key_name
+#   associate_public_ip_address = true
+#   subnet_id                   = aws_subnet.subnet_a.id
+#   #vpc_security_group_ids      = [aws_security_group.oracle.id]
 
-  tags = {
-    Name  = "assareh-client-instance",
-    owner = var.owner,
-    ttl   = var.ttl
-  }
-}
+#   tags = {
+#     Name  = "assareh-client-instance",
+#     owner = var.owner,
+#     ttl   = var.ttl
+#   }
+# }
 
-resource aws_instance "client2" {
-  ami                         = data.aws_ami.ubuntu.id
-  instance_type               = "t2.small"
-  key_name                    = aws_key_pair.oracle.key_name
-  associate_public_ip_address = true
-  subnet_id                   = aws_subnet.subnet_b.id
-  #vpc_security_group_ids      = [aws_security_group.oracle.id]
+# resource aws_instance "client2" {
+#   ami                         = data.aws_ami.ubuntu.id
+#   instance_type               = "t2.small"
+#   key_name                    = aws_key_pair.oracle.key_name
+#   associate_public_ip_address = true
+#   subnet_id                   = aws_subnet.subnet_b.id
+#   #vpc_security_group_ids      = [aws_security_group.oracle.id]
 
-  tags = {
-    Name  = "assareh-client-instance",
-    owner = var.owner,
-    ttl   = var.ttl
-  }
-}
+#   tags = {
+#     Name  = "assareh-client-instance",
+#     owner = var.owner,
+#     ttl   = var.ttl
+#   }
+# }
 
 ######################## AMI ########################
-data "aws_ami" "ubuntu-vault-oss" {
-  owners      = ["679593333241"] # HashiCorp
-  most_recent = true
+# data "aws_ami" "ubuntu-vault-oss" {
+#   owners      = ["679593333241"] # HashiCorp
+#   most_recent = true
 
-  filter {
-    name   = "name"
-    values = ["hashicorp/marketplace/vault-*"]
-  }
+#   filter {
+#     name   = "name"
+#     values = ["hashicorp/marketplace/vault-*"]
+#   }
 
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-}
+#   filter {
+#     name   = "virtualization-type"
+#     values = ["hvm"]
+#   }
+# }
 
 data "aws_ami" "ubuntu" {
   most_recent = true
@@ -156,7 +156,7 @@ module "db" {
 
   iam_database_authentication_enabled = false
 
-  vpc_security_group_ids = [aws_security_group.oracle.id]
+  vpc_security_group_ids = [aws_security_group.hashicat.id]
 
   maintenance_window = "Mon:00:00-Mon:03:00"
   backup_window      = "03:00-06:00"
@@ -171,7 +171,7 @@ module "db" {
   }
 
   # DB subnet group
-  subnet_ids = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
+  subnet_ids = [aws_subnet.hashicat.id, aws_subnet.hashicat2.id]
 
   # DB parameter group
   family = "oracle-se2-12.1"
@@ -219,6 +219,15 @@ resource aws_vpc "hashicat" {
 resource aws_subnet "hashicat" {
   vpc_id     = aws_vpc.hashicat.id
   cidr_block = var.subnet_prefix
+
+  tags = {
+    name = "${var.prefix}-subnet"
+  }
+}
+
+resource aws_subnet "hashicat2" {
+  vpc_id     = aws_vpc.hashicat.id
+  cidr_block = var.subnet2_prefix
 
   tags = {
     name = "${var.prefix}-subnet"

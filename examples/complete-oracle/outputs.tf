@@ -79,7 +79,7 @@ output "this_db_parameter_group_arn" {
 }
 
 output "aws-instance-ip" {
-  value = aws_instance.client.public_ip
+  value = aws_instance.hashicat.public_ip
 }
 
 output "private-key" {

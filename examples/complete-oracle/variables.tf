@@ -37,6 +37,11 @@ variable "subnet_prefix" {
   default     = "10.0.10.0/24"
 }
 
+variable "subnet2_prefix" {
+  description = "The address prefix to use for the subnet."
+  default     = "10.0.20.0/24"
+}
+
 variable "instance_type" {
   description = "Specifies the AWS instance type."
   default     = "t2.small"
