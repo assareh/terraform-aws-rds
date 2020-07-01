@@ -156,6 +156,7 @@ module "db" {
 
   iam_database_authentication_enabled = false
 
+  publicly_accessible    = true
   vpc_security_group_ids = [aws_security_group.hashicat.id]
 
   maintenance_window = "Mon:00:00-Mon:03:00"
