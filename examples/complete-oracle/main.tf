@@ -217,8 +217,9 @@ resource aws_vpc "hashicat" {
 }
 
 resource aws_subnet "hashicat" {
-  vpc_id     = aws_vpc.hashicat.id
-  cidr_block = var.subnet_prefix
+  vpc_id            = aws_vpc.hashicat.id
+  cidr_block        = var.subnet_prefix
+  availability_zone = "us-west-2b"
 
   tags = {
     name = "${var.prefix}-subnet"
@@ -226,8 +227,9 @@ resource aws_subnet "hashicat" {
 }
 
 resource aws_subnet "hashicat2" {
-  vpc_id     = aws_vpc.hashicat.id
-  cidr_block = var.subnet2_prefix
+  vpc_id            = aws_vpc.hashicat.id
+  cidr_block        = var.subnet2_prefix
+  availability_zone = "us-west-2c"
 
   tags = {
     name = "${var.prefix}-subnet"
